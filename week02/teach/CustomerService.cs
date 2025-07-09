@@ -11,24 +11,56 @@ public class CustomerService {
         // Test Cases
 
         // Test 1
-        // Scenario: 
-        // Expected Result: 
+        // Scenario: Testing the size of the queue by inputting a negative value
+        // Expected Result:  we should expect the default length of 10 customer
         Console.WriteLine("Test 1");
-
-        // Defect(s) Found: 
+        var cs = new CustomerService(-1);
+        Console.WriteLine($"Max Size should be 10 here: {cs}");
+        // Defect(s) Found: None
 
         Console.WriteLine("=================");
 
         // Test 2
-        // Scenario: 
-        // Expected Result: 
+        // Scenario: Adding two customer and checking if two customer can be dequeued
+        // Expected Result: we should expect customer 1 then customer 2 on the dequeue
         Console.WriteLine("Test 2");
-
-        // Defect(s) Found: 
+        cs.AddNewCustomer();
+        cs.AddNewCustomer();
+        Console.WriteLine(cs);
+        cs.ServeCustomer();
+        cs.ServeCustomer();
+        // Defect(s) Found: the serve customer method sequence isn't correct, it removes the customer before it returns the customer
+        // We just need to put customer var customer = _queue[0]; before _queue.RemoveAt(0);
 
         Console.WriteLine("=================");
 
-        // Add more Test Cases As Needed Below
+        // Test 3
+        // Scenario: Adding 4 customer to a 3 customer cs queue
+        // Expected Result: we should expect an error to be thrown
+        Console.WriteLine("Test 3");
+        var cs1 = new CustomerService(3);
+        cs1.AddNewCustomer();
+        cs1.AddNewCustomer();
+        cs1.AddNewCustomer();
+        cs1.AddNewCustomer();
+        Console.WriteLine(cs1);
+
+        // Defects found: the queue doesn't respect the maxsize. So Added >= to maxsize instead of > maxsize
+
+        // Test 4
+        // Scenario: Dequeuing 4 customer in a 3 customer queue
+        // Expected Result: we should expect an error to be thrown
+        Console.WriteLine("Test 4");
+        var cs2 = new CustomerService(3);
+        cs2.AddNewCustomer();
+        cs2.AddNewCustomer();
+        cs2.AddNewCustomer();
+        cs2.ServeCustomer();
+        cs2.ServeCustomer();
+        cs2.ServeCustomer();
+        cs2.ServeCustomer();
+
+        // Defects found: there's no error handling for when we try to dequeue more customer than there is on the queue
     }
 
     private readonly List<Customer> _queue = new();
@@ -67,7 +99,7 @@ public class CustomerService {
     /// </summary>
     private void AddNewCustomer() {
         // Verify there is room in the service queue
-        if (_queue.Count > _maxSize) {
+        if (_queue.Count >= _maxSize) {
             Console.WriteLine("Maximum Number of Customers in Queue.");
             return;
         }
@@ -88,8 +120,13 @@ public class CustomerService {
     /// Dequeue the next customer and display the information.
     /// </summary>
     private void ServeCustomer() {
-        _queue.RemoveAt(0);
+        if (_queue.Count <= 0)
+        {
+            Console.WriteLine("All customer has been served, Good job!");
+            return;
+        }
         var customer = _queue[0];
+        _queue.RemoveAt(0);
         Console.WriteLine(customer);
     }
 
