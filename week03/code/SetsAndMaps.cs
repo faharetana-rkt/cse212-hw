@@ -54,6 +54,11 @@ public static class SetsAndMaps
         {
             var fields = line.Split(",");
             // TODO Problem 2 - ADD YOUR CODE HERE
+            var degree = fields[3].Trim();
+            if (degrees.ContainsKey(degree))
+                degrees[degree] += 1;
+            else
+                degrees[degree] = 1;
         }
 
         return degrees;
@@ -78,7 +83,44 @@ public static class SetsAndMaps
     public static bool IsAnagram(string word1, string word2)
     {
         // TODO Problem 3 - ADD YOUR CODE HERE
-        return false;
+        // public static Dictionary<string, int> SummarizeDegrees(string filepath)
+        // {
+        //     Dictionary<string, int> degrees = new Dictionary<string, int>();
+        //     using var reader = new TextFieldParser(filepath);
+        //     reader.TextFieldType = FieldType.Delimited;
+        //     reader.SetDelimiters(",");
+        //     while (!reader.EndOfData) {
+        //         var fields = reader.ReadFields()!;
+        //         var degree = fields[3].Trim();
+        //         if (degrees.ContainsKey(degree))
+        //             degrees[degree] += 1;
+        //         else
+        //             degrees[degree] = 1;
+        //     }
+        //     return degrees;
+        // }
+        var dict1 = new Dictionary<char, int>();
+        var dict2 = new Dictionary<char, int>();
+        foreach (char character in word1.ToLower())
+        {
+            if (character == ' ')
+                continue;
+            if (dict1.ContainsKey(character))
+                dict1[character]++;
+            else
+                dict1[character] = 1;
+        }
+
+        foreach (char character in word2.ToLower())
+        {
+            if (character == ' ')
+                continue;
+            if (dict2.ContainsKey(character))
+                dict2[character]++;
+            else
+                dict2[character] = 1;
+        }
+        return dict1.Count == dict2.Count && dict1.OrderBy(kvp => kvp.Key).SequenceEqual(dict2.OrderBy(kvp => kvp.Key));
     }
 
     /// <summary>
@@ -112,6 +154,12 @@ public static class SetsAndMaps
         // on those classes so that the call to Deserialize above works properly.
         // 2. Add code below to create a string out each place a earthquake has happened today and its magitude.
         // 3. Return an array of these string descriptions.
-        return [];
+        List<string> strings = new ();
+        foreach (var feature in featureCollection.Features)
+        {
+            strings.Add($"{feature.Properties.Place} - Mag {feature.Properties.Mag} ");
+        }
+
+        return strings.ToArray();
     }
 }

@@ -154,6 +154,17 @@ public class SummarizeDegreesTests
             {"Preschool", 51},
             {"12th", 433},
         };
+        foreach (var key in result.Keys)
+        {
+            if (!expected.ContainsKey(key))
+                Debug.WriteLine($"Unexpected key: '{key}' => {result[key]}");
+        }
+
+        foreach (var key in expected.Keys)
+        {
+            if (!result.ContainsKey(key))
+                Debug.WriteLine($"Missing key: '{key}'");
+        }
 
         CollectionAssert.AreEqual(expected, result);
     }
