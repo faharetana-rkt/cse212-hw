@@ -134,6 +134,48 @@ public class LinkedList : IEnumerable<int>
     public void Remove(int value)
     {
         // TODO Problem 3
+        Node? curr = _head;
+        while (curr is not null)
+        {
+            if (curr.Data == value)
+            {
+                if (curr == _tail)
+                {
+                    if (_head == _tail)
+                    {
+                        _head = null;
+                        _tail = null;
+                    }
+                    else if (_tail is not null)
+                    {
+                        _tail.Prev!.Next = null;
+                        _tail = _tail.Prev;
+                    }
+                }
+                else if (curr == _head)
+                {
+                    if (_head == _tail)
+                    {
+                        _head = null;
+                        _tail = null;
+                    }
+                    else if (_head is not null)
+                    {
+                        _head.Next!.Prev = null;
+                        _head = _head.Next;
+                    }
+                }
+                else
+                {
+                    curr.Next!.Prev = curr.Prev;
+                    curr.Prev!.Next = curr.Next;
+                }
+
+                return;
+            }
+
+            curr = curr.Next;
+        }
     }
 
     /// <summary>
@@ -193,8 +235,10 @@ public class LinkedList : IEnumerable<int>
     }
 }
 
-public static class IntArrayExtensionMethods {
-    public static string AsString(this IEnumerable array) {
+public static class IntArrayExtensionMethods
+{
+    public static string AsString(this IEnumerable array)
+    {
         return "<IEnumerable>{" + string.Join(", ", array.Cast<int>()) + "}";
     }
 }
