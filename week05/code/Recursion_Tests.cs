@@ -141,6 +141,10 @@ public class WildcardBinaryTests
             "110100",
             "110101"
         };
+        foreach (var word in results) {
+            Debug.WriteLine(word);
+        };
+        
         CollectionAssert.AreEqual(expected, results);
     }
 

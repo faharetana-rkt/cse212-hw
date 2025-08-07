@@ -150,6 +150,32 @@ public static class Recursion
     public static void WildcardBinary(string pattern, List<string> results)
     {
         // TODO Start Problem 4
+        if (!pattern.Contains('*'))
+        {
+            results.Add(pattern);
+            return;
+        }
+        if (pattern == "")
+        {
+            results.Add("");
+            return;
+        }
+        for (var i = 0; i < pattern.Length; i++)
+        {
+            if (pattern[i] == '*')
+            {
+                var array1 = pattern.ToCharArray();
+                array1[i] = '1';
+                pattern = string.Join("", array1);
+                WildcardBinary(pattern, results);
+
+                var array0 = pattern.ToCharArray();
+                array0[i] = '0';
+                pattern = string.Join("", array0);
+                WildcardBinary(pattern, results);
+            }
+        }
+        
     }
 
     /// <summary>
