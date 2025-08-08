@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 // DO NOT MODIFY THIS FILE
@@ -196,10 +195,6 @@ public class SolveMazeTests
         Recursion.SolveMaze(results, smallMaze);
 
         results.Sort();
-
-        foreach(var result in results) {
-            Debug.WriteLine(result);
-        };
 
         var expected = new List<string> {
             "<List>{(0, 0), (0, 1), (0, 2), (1, 2), (2, 2)}",
