@@ -166,13 +166,15 @@ public static class Recursion
             {
                 var array1 = pattern.ToCharArray();
                 array1[i] = '1';
-                pattern1 = string.Join("", array1);
+                var pattern1 = string.Join("", array1);
                 WildcardBinary(pattern1, results);
 
                 var array0 = pattern.ToCharArray();
                 array0[i] = '0';
-                pattern0 = string.Join("", array0);
+                var pattern0 = string.Join("", array0);
                 WildcardBinary(pattern0, results);
+                // Using break to only process the first '*' to avoid duplicates
+                break;
             }
         }
         
