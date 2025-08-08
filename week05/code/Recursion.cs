@@ -197,15 +197,20 @@ public static class Recursion
 
         // TODO Start Problem 5
         // ADD CODE HERE
-        if (maze.isEnd)
+        if(!maze.IsValidMove(currPath, x, y)){
+            return;
+        }
+        
+        if (maze.IsEnd(x, y))
         {
             currPath.Add((x, y));
             results.Add(currPath.AsString());
+            currPath.RemoveAt(currPath.Count - 1);
             return;
         }
         else
         {
-            if (maze.isValidMove)
+            if (maze.IsValidMove(currPath, x, y))
             {
                 currPath.Add((x, y));
                 // Move up
@@ -220,6 +225,7 @@ public static class Recursion
                 // Move right
                 var right = x + 1;
                 SolveMaze(results, maze, right, y, currPath);
+                currPath.RemoveAt(currPath.Count-1);
             }
         }
 
